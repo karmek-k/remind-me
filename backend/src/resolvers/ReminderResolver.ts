@@ -1,5 +1,5 @@
 import { Resolver, Query, Arg } from 'type-graphql';
-import Reminder from '../models/Reminder';
+import { Reminder } from '../models/Reminder';
 import { reminderService } from '../services/reminderService';
 
 @Resolver(Reminder)
@@ -9,7 +9,7 @@ export default class {
     return reminderService.allReminders();
   }
 
-  @Query(() => Reminder)
+  @Query(() => Reminder, { nullable: true })
   reminder(@Arg('id') id: number) {
     return reminderService.oneReminder(id);
   }

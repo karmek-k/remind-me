@@ -1,4 +1,4 @@
-import Reminder, { Channel } from '../models/Reminder';
+import { Reminder, Channel } from '../models/Reminder';
 
 class ReminderService {
   private reminders: Reminder[];

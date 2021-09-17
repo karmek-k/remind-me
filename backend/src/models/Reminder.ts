@@ -10,7 +10,7 @@ registerEnumType(Channel, {
 });
 
 @ObjectType()
-export default class {
+export class Reminder {
   @Field(() => ID)
   id!: number;
 
