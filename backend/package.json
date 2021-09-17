@@ -1,6 +1,6 @@
 {
-  "name": "reminder-me-backend",
-  "description": "Reminder Me - backend code",
+  "name": "remind-me-backend",
+  "description": "Remind Me - backend code",
   "main": "dist/index.js",
   "repository": "https://github.com/karmek-k/reminder-me",
   "author": "Bartosz Gleń",

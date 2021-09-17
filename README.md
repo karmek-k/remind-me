@@ -1,1 +1,1 @@
-# reminder-me
+# remind-me
