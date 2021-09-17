@@ -14,7 +14,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc --watch"
+    "build:watch": "tsc --watch",
+    "start": "node .",
+    "start:watch": "nodemon . -e ts,js,json",
+    "dev": "concurrently \"yarn:build:watch\" \"yarn:start:watch\""
   },
   "dependencies": {
     "apollo-server": "^3.3.0",
