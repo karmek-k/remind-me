@@ -22,4 +22,7 @@ export class Reminder {
 
   @Field(() => [Channel])
   channels!: Set<Channel>;
+
+  @Field({ defaultValue: false })
+  active!: boolean;
 }
