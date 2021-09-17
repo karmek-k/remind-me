@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { ApolloServer, gql } from 'apollo-server';
 
 const typeDefs = gql`
