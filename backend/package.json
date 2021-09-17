@@ -1,0 +1,9 @@
+{
+  "name": "reminder-me-backend",
+  "description": "Reminder Me - backend code",
+  "main": "dist/index.js",
+  "repository": "https://github.com/karmek-k/reminder-me",
+  "author": "Bartosz Gleń",
+  "license": "AGPL-3.0-only",
+  "private": true
+}
