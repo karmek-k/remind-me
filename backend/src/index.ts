@@ -1,19 +1,14 @@
 import 'reflect-metadata';
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
+import { buildSchema } from 'type-graphql';
+import ReminderResolver from './resolvers/ReminderResolver';
 
-const typeDefs = gql`
-  type Query {
-    ping: String!
-  }
-`;
+async function init() {
+  const schema = await buildSchema({ resolvers: [ReminderResolver] });
+  const server = new ApolloServer({ schema });
 
-const resolvers = {
-  Query: {
-    ping: () => 'pong'
-  }
-};
-
-const server = new ApolloServer({ typeDefs, resolvers });
-server.listen().then(({ url }) => {
+  const { url } = await server.listen();
   console.log(`Server running on ${url}`);
-});
+}
+
+init();
