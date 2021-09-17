@@ -17,7 +17,7 @@ export class Reminder {
   @Field()
   title!: string;
 
-  @Field()
+  @Field({ nullable: true })
   message!: string;
 
   @Field(() => [Channel])
