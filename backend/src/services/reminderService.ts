@@ -15,11 +15,11 @@ class ReminderService {
     ];
   }
 
-  allReminders() {
+  all() {
     return this.reminders;
   }
 
-  oneReminder(id: number) {
+  find(id: number) {
     return this.reminders.find(r => r.id === id);
   }
 }

@@ -6,11 +6,11 @@ import { reminderService } from '../services/reminderService';
 export default class {
   @Query(() => [Reminder])
   reminders() {
-    return reminderService.allReminders();
+    return reminderService.all();
   }
 
   @Query(() => Reminder, { nullable: true })
   reminder(@Arg('id') id: number) {
-    return reminderService.oneReminder(id);
+    return reminderService.find(id);
   }
 }
