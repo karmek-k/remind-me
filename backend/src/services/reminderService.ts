@@ -1,4 +1,4 @@
-import Reminder from '../models/Reminder';
+import Reminder, { Channel } from '../models/Reminder';
 
 class ReminderService {
   private reminders: Reminder[];
@@ -7,7 +7,9 @@ class ReminderService {
     this.reminders = [
       {
         id: 1,
-        message: 'clean your room'
+        title: 'clean your room',
+        message: "it's really messy",
+        channels: new Set<Channel>([Channel.DISCORD])
       }
     ];
   }
