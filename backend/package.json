@@ -5,5 +5,9 @@
   "repository": "https://github.com/karmek-k/reminder-me",
   "author": "Bartosz Gleń",
   "license": "AGPL-3.0-only",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^16.9.2",
+    "typescript": "^4.4.3"
+  }
 }
