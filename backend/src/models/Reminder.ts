@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
-import { ChannelType } from '../services/channels/channelTransport';
+import { ChannelType } from '../services/channels/channelMap';
 
 registerEnumType(ChannelType, {
   name: 'Channel',

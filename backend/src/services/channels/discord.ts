@@ -1,5 +1,5 @@
 import { Reminder } from '../../models/Reminder';
-import { ChannelTransport } from './ChannelTransport';
+import { ChannelTransport } from './channelTransport';
 
 class DiscordChannel implements ChannelTransport {
   send(reminder: Reminder): Promise<boolean> {

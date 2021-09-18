@@ -1,6 +1,6 @@
 import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
 import { Reminder } from '../models/Reminder';
-import { ChannelType } from '../services/channels/ChannelTransport';
+import { ChannelType } from './channels/channelMap';
 
 class ReminderService {
   private reminders: Reminder[];

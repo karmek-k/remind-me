@@ -1,5 +1,5 @@
 import { InputType, Field } from 'type-graphql';
-import { ChannelType } from '../../services/channels/channelTransport';
+import { ChannelType } from '../../services/channels/channelMap';
 import { ArrayUnique, MaxLength } from 'class-validator';
 
 @InputType()
