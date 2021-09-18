@@ -18,7 +18,7 @@ export class Reminder {
   message!: string;
 
   @Field(() => [ChannelType])
-  channels!: Set<ChannelType>;
+  channels!: ChannelType[];
 
   @Field()
   hour!: number;

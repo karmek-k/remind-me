@@ -1,8 +1,9 @@
 import { Reminder } from '../../models/Reminder';
+import { loggerService } from '../loggerService';
 import { ChannelTransport } from './channelTransport';
 
 class ConsoleChannel implements ChannelTransport {
-  send(reminder: Reminder): Promise<boolean> {
+  send(reminder: Reminder): Promise<void> {
     const message = `
 
 New message!
@@ -10,9 +11,9 @@ Title: ${reminder.title}
 Message: ${reminder.message}
 
 `;
-    console.log(message);
+    loggerService.log(message);
 
-    return new Promise(resolve => resolve(true));
+    return Promise.resolve();
   }
 }
 
