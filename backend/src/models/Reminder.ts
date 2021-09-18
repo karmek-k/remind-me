@@ -1,10 +1,7 @@
 import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
+import { ChannelType } from '../services/channels/ChannelTransport';
 
-export enum Channel {
-  DISCORD = 'DISCORD'
-}
-
-registerEnumType(Channel, {
+registerEnumType(ChannelType, {
   name: 'Channel',
   description: 'Communication channel'
 });
@@ -20,8 +17,8 @@ export class Reminder {
   @Field({ nullable: true })
   message!: string;
 
-  @Field(() => [Channel])
-  channels!: Set<Channel>;
+  @Field(() => [ChannelType])
+  channels!: Set<ChannelType>;
 
   @Field({ defaultValue: false })
   active!: boolean;
