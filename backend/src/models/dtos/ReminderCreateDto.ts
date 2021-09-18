@@ -1,6 +1,6 @@
 import { InputType, Field } from 'type-graphql';
 import { ChannelType } from '../../services/channels/channelMap';
-import { ArrayUnique, MaxLength } from 'class-validator';
+import { ArrayUnique, Max, MaxLength, Min } from 'class-validator';
 
 @InputType()
 export class ReminderCreateDto {
@@ -15,4 +15,14 @@ export class ReminderCreateDto {
   @Field(() => [ChannelType])
   @ArrayUnique()
   channels!: Set<ChannelType>;
+
+  @Field()
+  @Min(0)
+  @Max(23)
+  hour!: number;
+
+  @Field()
+  @Min(0)
+  @Max(59)
+  minute!: number;
 }
