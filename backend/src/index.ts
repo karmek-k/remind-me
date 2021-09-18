@@ -9,7 +9,8 @@ import { scheduleService } from './services/scheduleService';
 import { loggerService } from './services/loggerService';
 
 async function init() {
-  await scheduleService.loadJobs();
+  const jobCount = await scheduleService.countJobs();
+  loggerService.log(`Job count: ${jobCount}`);
 
   const schema = await buildSchema({ resolvers: [ReminderResolver] });
   const server = new ApolloServer({ schema });

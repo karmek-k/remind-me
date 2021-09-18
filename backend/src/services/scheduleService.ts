@@ -18,20 +18,14 @@ class ScheduleService {
     this.queue.process(this.processCallback);
   }
 
-  add(reminder: Reminder) {
+  async addJob(reminder: Reminder) {
     loggerService.log(`Adding reminder titled '${reminder.title}'`, 'verbose');
 
-    this.queue.add(reminder, { repeat: { cron: reminder.cron } });
+    await this.queue.add(reminder, { repeat: { cron: reminder.cron } });
   }
 
-  async loadJobs() {
-    loggerService.log('Emptying the queue and loading jobs');
-
-    await this.queue.empty();
-
-    reminderService.all().forEach(rem => {
-      this.add(rem);
-    });
+  async countJobs() {
+    return await this.queue.count();
   }
 
   private async processCallback(job: Queue.Job<Reminder>) {
