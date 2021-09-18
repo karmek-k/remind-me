@@ -11,7 +11,7 @@ class ReminderService {
         id: 1,
         title: 'clean your room',
         message: "it's really messy",
-        channels: new Set<ChannelType>([ChannelType.DISCORD]),
+        channels: new Set<ChannelType>([ChannelType.CONSOLE]),
         hour: 0,
         minute: 0,
         cron: '* * * * *',
