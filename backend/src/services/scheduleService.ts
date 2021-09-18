@@ -1,7 +1,8 @@
 import Queue from 'bull';
 import { Reminder } from '../models/Reminder';
-import channelMap from './channels/channelMap';
+import channelMap, { ChannelType } from './channels/channelMap';
 import { reminderService } from './reminderService';
+import { loggerService } from './loggerService';
 
 class ScheduleService {
   private queue: Queue.Queue<Reminder>;
@@ -18,25 +19,37 @@ class ScheduleService {
   }
 
   add(reminder: Reminder) {
+    loggerService.log(`Adding reminder titled '${reminder.title}'`, 'verbose');
+
     this.queue.add(reminder, { repeat: { cron: reminder.cron } });
   }
 
   async loadJobs() {
+    loggerService.log('Emptying the queue and loading jobs');
+
+    await this.queue.empty();
+
     reminderService.all().forEach(rem => {
       this.add(rem);
     });
   }
 
   private async processCallback(job: Queue.Job<Reminder>) {
-    const chanTypes = job.data.channels.values();
-    console.log('a');
+    loggerService.log(
+      `Executing job for reminder '${job.data.title}'`,
+      'verbose'
+    );
 
-    // IterableIterator<T> doesn't support forEach method
-    for (const chanType of chanTypes) {
+    for (const chanType of job.data.channels) {
       const transport = channelMap.get(chanType);
       if (!transport) {
         throw new Error(`Invalid channel type: ${chanType}`);
       }
+
+      loggerService.log(
+        `Sending reminder '${job.data.title}': channel ${chanType}`,
+        'verbose'
+      );
 
       await transport.send(job.data);
     }
