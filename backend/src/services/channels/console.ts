@@ -1,4 +1,5 @@
 import { Reminder } from '../../models/Reminder';
+import { loggerService } from '../loggerService';
 import { ChannelTransport } from './channelTransport';
 
 class ConsoleChannel implements ChannelTransport {
@@ -10,7 +11,7 @@ Title: ${reminder.title}
 Message: ${reminder.message}
 
 `;
-    console.log(message);
+    loggerService.log(message);
 
     return Promise.resolve();
   }
