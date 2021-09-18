@@ -29,9 +29,9 @@ class ScheduleService {
 
     await this.queue.empty();
 
-    reminderService.all().forEach(rem => {
-      this.add(rem);
-    });
+    for (const reminder of reminderService.all()) {
+      await this.queue.add(reminder);
+    }
   }
 
   private async processCallback(job: Queue.Job<Reminder>) {
