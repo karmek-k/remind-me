@@ -1,4 +1,4 @@
-import { ChannelTransport, ChannelType } from './ChannelTransport';
+import { ChannelTransport, ChannelType } from './channelTransport';
 import { discordChannel } from './discord';
 import { consoleChannel } from './console';
 
