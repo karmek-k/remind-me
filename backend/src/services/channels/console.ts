@@ -2,7 +2,7 @@ import { Reminder } from '../../models/Reminder';
 import { ChannelTransport } from './channelTransport';
 
 class ConsoleChannel implements ChannelTransport {
-  send(reminder: Reminder): Promise<boolean> {
+  send(reminder: Reminder): Promise<void> {
     const message = `
 
 New message!
@@ -12,7 +12,7 @@ Message: ${reminder.message}
 `;
     console.log(message);
 
-    return new Promise(resolve => resolve(true));
+    return Promise.resolve();
   }
 }
 
