@@ -24,12 +24,8 @@ class ScheduleService {
     await this.queue.add(reminder, { repeat: { cron: reminder.cron } });
   }
 
-  async loadJobs() {
-    loggerService.log('Loading jobs');
-
-    for (const reminder of reminderService.all()) {
-      await this.addJob(reminder);
-    }
+  async countJobs() {
+    return await this.queue.count();
   }
 
   private async processCallback(job: Queue.Job<Reminder>) {
