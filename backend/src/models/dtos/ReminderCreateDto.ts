@@ -14,7 +14,7 @@ export class ReminderCreateDto {
 
   @Field(() => [ChannelType])
   @ArrayUnique()
-  channels!: Set<ChannelType>;
+  channels!: ChannelType[];
 
   @Field()
   @Min(0)
