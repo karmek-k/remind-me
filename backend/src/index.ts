@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
