@@ -1,6 +1,7 @@
 import { Reminder } from '../../models/Reminder';
 
 export enum ChannelType {
+  CONSOLE = 'CONSOLE',
   DISCORD = 'DISCORD'
 }
 
