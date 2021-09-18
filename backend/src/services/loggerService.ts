@@ -6,11 +6,13 @@ class LoggerService {
   constructor() {
     this.logger = winston.createLogger({
       level: 'verbose', // TODO: change when deploying
-      transports: [new winston.transports.Console()]
+      transports: [
+        new winston.transports.Console({ format: winston.format.simple() })
+      ]
     });
   }
 
-  log(msg: any, level: string) {
+  log(msg: any, level: string = 'info') {
     this.logger.log(level, msg);
   }
 }
