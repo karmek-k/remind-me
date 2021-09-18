@@ -1,5 +1,6 @@
 import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
-import { Reminder, Channel } from '../models/Reminder';
+import { Reminder } from '../models/Reminder';
+import { ChannelType } from './channels/channelMap';
 
 class ReminderService {
   private reminders: Reminder[];
@@ -10,7 +11,7 @@ class ReminderService {
         id: 1,
         title: 'clean your room',
         message: "it's really messy",
-        channels: new Set<Channel>([Channel.DISCORD]),
+        channels: new Set<ChannelType>([ChannelType.DISCORD]),
         active: true
       }
     ];

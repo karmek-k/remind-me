@@ -1,5 +1,5 @@
 import { InputType, Field } from 'type-graphql';
-import { Channel } from '../Reminder';
+import { ChannelType } from '../../services/channels/channelMap';
 import { ArrayUnique, MaxLength } from 'class-validator';
 
 @InputType()
@@ -12,7 +12,7 @@ export class ReminderCreateDto {
   @MaxLength(255)
   message!: string;
 
-  @Field(() => [Channel])
+  @Field(() => [ChannelType])
   @ArrayUnique()
-  channels!: Set<Channel>;
+  channels!: Set<ChannelType>;
 }
