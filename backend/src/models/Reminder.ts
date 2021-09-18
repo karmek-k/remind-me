@@ -20,6 +20,14 @@ export class Reminder {
   @Field(() => [ChannelType])
   channels!: Set<ChannelType>;
 
+  @Field()
+  hour!: number;
+
+  @Field()
+  minute!: number;
+
+  cron!: string;
+
   @Field({ defaultValue: false })
   active!: boolean;
 }

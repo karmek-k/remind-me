@@ -12,6 +12,9 @@ class ReminderService {
         title: 'clean your room',
         message: "it's really messy",
         channels: new Set<ChannelType>([ChannelType.DISCORD]),
+        hour: 0,
+        minute: 0,
+        cron: '* * * * *',
         active: true
       }
     ];
@@ -26,9 +29,12 @@ class ReminderService {
   }
 
   insert(reminderData: ReminderCreateDto) {
-    const data = {
+    const { hour, minute } = reminderData;
+
+    const data: Reminder = {
       ...reminderData,
       id: this.reminders.length + 1,
+      cron: `${minute} ${hour} * * *`,
       active: false
     };
 
