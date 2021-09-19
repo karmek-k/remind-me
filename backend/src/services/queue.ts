@@ -3,6 +3,7 @@ import { ReminderJob } from '../models/ReminderJob';
 import channelMap from './channels/channelMap';
 import { loggerService } from './logger';
 import { reminderProvider } from './providers/reminder';
+import { reminderJobProvider } from './providers/reminderJob';
 
 class QueueService {
   private queue: Queue.Queue<ReminderJob>;
@@ -16,6 +17,16 @@ class QueueService {
 
     this.queue = new Queue<ReminderJob>('reminder-queue', REDIS_URL);
     this.queue.process(this.processCallback);
+  }
+
+  async loadJobs() {
+    loggerService.log('Loading all jobs to the queue');
+
+    for (const job of reminderJobProvider.all()) {
+      await this.queue.add(job, { repeat: { cron: job.cron } });
+    }
+
+    return await this.queue.count();
   }
 
   private async processCallback(job: Job<ReminderJob>) {
@@ -48,7 +59,7 @@ class QueueService {
       }
 
       loggerService.log(
-        `Sending a reminder titled ${reminder.title} by channel ${channel}`,
+        `Sending a reminder titled '${reminder.title}' by channel ${channel}`,
         'verbose'
       );
       await transport.send(reminder);
