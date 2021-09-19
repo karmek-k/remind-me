@@ -1,8 +1,8 @@
-import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
-import { Reminder } from '../models/Reminder';
-import { ChannelType } from './channels/channelMap';
+import { ReminderCreateDto } from '../../models/dtos/ReminderCreateDto';
+import { Reminder } from '../../models/Reminder';
+import { reminderJobProvider } from './reminderJob';
 
-class ReminderService {
+class ReminderProvider {
   private reminders: Reminder[];
 
   constructor() {
@@ -11,11 +11,7 @@ class ReminderService {
         id: 1,
         title: 'clean your room',
         message: "it's really messy",
-        channels: [ChannelType.CONSOLE],
-        hour: 0,
-        minute: 0,
-        cron: '* * * * *',
-        active: true
+        jobs: reminderJobProvider.findForReminder(1)
       }
     ];
   }
@@ -29,13 +25,10 @@ class ReminderService {
   }
 
   insert(reminderData: ReminderCreateDto) {
-    const { hour, minute } = reminderData;
-
     const data: Reminder = {
       ...reminderData,
       id: this.reminders.length + 1,
-      cron: `${minute} ${hour} * * *`,
-      active: false
+      jobs: []
     };
 
     this.reminders.push(data);
@@ -52,4 +45,4 @@ class ReminderService {
   }
 }
 
-export const reminderService = new ReminderService();
+export const reminderProvider = new ReminderProvider();
