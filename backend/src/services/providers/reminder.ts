@@ -1,6 +1,6 @@
 import { ReminderCreateDto } from '../../models/dtos/ReminderCreateDto';
 import { Reminder } from '../../models/Reminder';
-import { ChannelType } from '../channels/channelMap';
+import { reminderJobProvider } from './reminderJob';
 
 class ReminderProvider {
   private reminders: Reminder[];
@@ -11,16 +11,7 @@ class ReminderProvider {
         id: 1,
         title: 'clean your room',
         message: "it's really messy",
-        jobs: [
-          {
-            id: 1,
-            channels: [ChannelType.CONSOLE],
-            hour: 0,
-            minute: 0,
-            cron: '* * * * *',
-            active: true
-          }
-        ]
+        jobs: reminderJobProvider.findForReminder(1)
       }
     ];
   }

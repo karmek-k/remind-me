@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
 import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
 import { Reminder } from '../models/Reminder';
-import { reminderProvider } from '../services/providers/reminderProvider';
+import { reminderProvider } from '../services/providers/reminder';
 
 @Resolver(Reminder)
 export default class {
