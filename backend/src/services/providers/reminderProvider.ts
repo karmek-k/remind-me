@@ -1,8 +1,8 @@
-import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
-import { Reminder } from '../models/Reminder';
-import { ChannelType } from './channels/channelMap';
+import { ReminderCreateDto } from '../../models/dtos/ReminderCreateDto';
+import { Reminder } from '../../models/Reminder';
+import { ChannelType } from '../channels/channelMap';
 
-class ReminderService {
+class ReminderProvider {
   private reminders: Reminder[];
 
   constructor() {
@@ -54,4 +54,4 @@ class ReminderService {
   }
 }
 
-export const reminderService = new ReminderService();
+export const reminderProvider = new ReminderProvider();

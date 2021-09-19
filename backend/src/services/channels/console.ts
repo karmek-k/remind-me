@@ -1,5 +1,5 @@
 import { Reminder } from '../../models/Reminder';
-import { loggerService } from '../loggerService';
+import { loggerService } from '../logger';
 import { ChannelTransport } from './channelTransport';
 
 class ConsoleChannel implements ChannelTransport {

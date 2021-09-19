@@ -5,7 +5,7 @@ import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
 import ReminderResolver from './resolvers/ReminderResolver';
-import { loggerService } from './services/loggerService';
+import { loggerService } from './services/logger';
 
 async function init() {
   const schema = await buildSchema({ resolvers: [ReminderResolver] });
