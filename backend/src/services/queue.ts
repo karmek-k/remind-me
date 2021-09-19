@@ -23,10 +23,21 @@ class QueueService {
     loggerService.log('Loading all jobs to the queue');
 
     for (const job of reminderJobProvider.all()) {
-      await this.queue.add(job, { repeat: { cron: job.cron } });
+      await this.addJob(job);
     }
 
     return await this.queue.count();
+  }
+
+  async addJob(job: ReminderJob) {
+    await this.queue.add(job, {
+      jobId: job.id,
+      repeat: { cron: job.cron }
+    });
+  }
+
+  async deleteJob(job: ReminderJob) {
+    await this.queue.removeRepeatable({ jobId: job.id, cron: job.cron });
   }
 
   private async processCallback(job: Job<ReminderJob>) {
