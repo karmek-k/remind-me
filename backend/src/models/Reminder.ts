@@ -1,10 +1,5 @@
 import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
-import { ChannelType } from '../services/channels/channelMap';
-
-registerEnumType(ChannelType, {
-  name: 'Channel',
-  description: 'Communication channel'
-});
+import { ReminderJob } from './ReminderJob';
 
 @ObjectType()
 export class Reminder {
@@ -17,17 +12,6 @@ export class Reminder {
   @Field({ nullable: true })
   message!: string;
 
-  @Field(() => [ChannelType])
-  channels!: ChannelType[];
-
-  @Field()
-  hour!: number;
-
-  @Field()
-  minute!: number;
-
-  cron!: string;
-
-  @Field({ defaultValue: false })
-  active!: boolean;
+  @Field(() => [ReminderJob])
+  jobs!: ReminderJob[];
 }

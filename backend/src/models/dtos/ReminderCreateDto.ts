@@ -16,13 +16,13 @@ export class ReminderCreateDto {
   @ArrayUnique()
   channels!: ChannelType[];
 
-  @Field()
-  @Min(0)
-  @Max(23)
-  hour!: number;
+  // @Field()
+  // @Min(0)
+  // @Max(23)
+  // hour!: number;
 
-  @Field()
-  @Min(0)
-  @Max(59)
-  minute!: number;
+  // @Field()
+  // @Min(0)
+  // @Max(59)
+  // minute!: number;
 }

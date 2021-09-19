@@ -11,11 +11,16 @@ class ReminderService {
         id: 1,
         title: 'clean your room',
         message: "it's really messy",
-        channels: [ChannelType.CONSOLE],
-        hour: 0,
-        minute: 0,
-        cron: '* * * * *',
-        active: true
+        jobs: [
+          {
+            id: 1,
+            channels: [ChannelType.CONSOLE],
+            hour: 0,
+            minute: 0,
+            cron: '* * * * *',
+            active: true
+          }
+        ]
       }
     ];
   }
@@ -29,13 +34,10 @@ class ReminderService {
   }
 
   insert(reminderData: ReminderCreateDto) {
-    const { hour, minute } = reminderData;
-
     const data: Reminder = {
       ...reminderData,
       id: this.reminders.length + 1,
-      cron: `${minute} ${hour} * * *`,
-      active: false
+      jobs: []
     };
 
     this.reminders.push(data);
