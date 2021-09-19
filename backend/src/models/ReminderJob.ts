@@ -11,6 +11,9 @@ export class ReminderJob {
   @Field(() => ID)
   id!: number;
 
+  @Field(() => ID)
+  reminderId!: number;
+
   @Field()
   hour!: number;
 
