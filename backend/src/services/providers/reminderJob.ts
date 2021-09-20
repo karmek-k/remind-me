@@ -1,63 +1,57 @@
 import { ReminderJob } from '../../models/ReminderJob';
-import { ChannelType } from '../channels/channelMap';
 import { ReminderJobCreateDto } from '../../models/dtos/ReminderJobCreateDto';
 import { queueService } from '../queue';
+import { reminderProvider } from './reminder';
 
 class ReminderJobProvider {
-  private reminderJobs: ReminderJob[];
+  async all() {
+    return await ReminderJob.find();
+  }
 
-  constructor() {
-    this.reminderJobs = [
-      {
-        id: 1,
-        reminderId: 1,
-        channels: [ChannelType.CONSOLE],
-        hour: 0,
-        minute: 0,
-        cron: '* * * * *',
-        active: true
+  async find(id: number) {
+    return await ReminderJob.findOne(id);
+  }
+
+  async findForReminder(reminderId: number) {
+    return await ReminderJob.find({
+      where: {
+        reminder: { id: reminderId }
       }
-    ];
-  }
-
-  all() {
-    return this.reminderJobs;
-  }
-
-  find(id: number) {
-    return this.reminderJobs.find(rj => rj.id === id);
-  }
-
-  findForReminder(reminderId: number) {
-    return this.reminderJobs.filter(rj => rj.reminderId === reminderId);
+    });
   }
 
   async insert(reminderJobData: ReminderJobCreateDto) {
-    const { hour, minute } = reminderJobData;
+    const { hour, minute, channels, reminderId } = reminderJobData;
+    const reminder = await reminderProvider.find(reminderId);
 
-    const data: ReminderJob = {
-      ...reminderJobData,
-      id: this.reminderJobs.length + 1,
-      cron: `${minute} ${hour} * * *`,
-      active: true
-    };
+    if (!reminder) {
+      return null;
+    }
 
-    this.reminderJobs.push(data);
-    await queueService.addJob(data);
+    const newJob = new ReminderJob();
+
+    newJob.hour = hour;
+    newJob.minute = minute;
+    newJob.cron = `${minute} ${hour} * * *`;
+    newJob.channels = channels;
+    newJob.reminder = reminder;
+
+    const data = await newJob.save();
+    await queueService.addJob(newJob);
 
     return data;
   }
 
   async delete(id: number) {
-    const toDelete = this.reminderJobs.find(rj => rj.id === id);
+    const toDelete = await ReminderJob.findOne(id);
     if (!toDelete) {
       return null;
     }
 
-    this.reminderJobs = this.reminderJobs.filter(rj => rj !== toDelete);
+    const data = await toDelete.remove();
     await queueService.deleteJob(toDelete);
 
-    return toDelete;
+    return data;
   }
 }
 
