@@ -1,9 +1,9 @@
-import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
+import { Field, Int, ObjectType, registerEnumType } from 'type-graphql';
 import { ReminderJob } from './ReminderJob';
 
 @ObjectType()
 export class Reminder {
-  @Field(() => ID)
+  @Field(() => Int)
   id!: number;
 
   @Field()

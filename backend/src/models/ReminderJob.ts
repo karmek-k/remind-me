@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
+import { ObjectType, Field, registerEnumType, Int } from 'type-graphql';
 import { ChannelType } from '../services/channels/channelMap';
 
 registerEnumType(ChannelType, {
@@ -8,10 +8,10 @@ registerEnumType(ChannelType, {
 
 @ObjectType()
 export class ReminderJob {
-  @Field(() => ID)
+  @Field(() => Int)
   id!: number;
 
-  @Field(() => ID)
+  @Field(() => Int)
   reminderId!: number;
 
   @Field()

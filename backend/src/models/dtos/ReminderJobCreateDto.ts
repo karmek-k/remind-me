@@ -1,10 +1,10 @@
-import { InputType, Field, ID } from 'type-graphql';
+import { InputType, Field, Int } from 'type-graphql';
 import { Min, Max, ArrayUnique } from 'class-validator';
 import { ChannelType } from '../../services/channels/channelMap';
 
 @InputType()
 export class ReminderJobCreateDto {
-  @Field(() => ID)
+  @Field(() => Int)
   @Min(1)
   reminderId!: number;
 
