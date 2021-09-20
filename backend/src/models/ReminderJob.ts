@@ -21,15 +21,15 @@ export class ReminderJob extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field(() => Int)
+  @Field(() => Reminder)
   @ManyToOne(() => Reminder, rem => rem.jobs)
   reminder!: Reminder;
 
-  @Field()
+  @Field(() => Int)
   @Column()
   hour!: number;
 
-  @Field()
+  @Field(() => Int)
   @Column()
   minute!: number;
 
