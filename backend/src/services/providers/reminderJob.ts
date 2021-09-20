@@ -48,10 +48,10 @@ class ReminderJobProvider {
       throw new Error('Job does not exist');
     }
 
-    const data = await toDelete.remove();
     await queueService.deleteJob(toDelete);
+    await toDelete.remove();
 
-    return data;
+    return Promise.resolve();
   }
 }
 
