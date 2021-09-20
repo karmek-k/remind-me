@@ -24,6 +24,9 @@ export class Reminder extends BaseEntity {
   message!: string;
 
   @Field(() => [ReminderJob])
-  @OneToMany(() => ReminderJob, job => job.reminder, { cascade: true })
+  @OneToMany(() => ReminderJob, job => job.reminder, {
+    cascade: true,
+    eager: true
+  })
   jobs!: ReminderJob[];
 }
