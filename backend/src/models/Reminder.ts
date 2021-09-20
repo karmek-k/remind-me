@@ -20,7 +20,7 @@ export class Reminder extends BaseEntity {
   title!: string;
 
   @Field({ nullable: true })
-  @Column()
+  @Column({ nullable: true })
   message!: string;
 
   @Field(() => [ReminderJob])
