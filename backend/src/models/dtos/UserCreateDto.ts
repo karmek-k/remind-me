@@ -1,9 +1,9 @@
 import { Length } from 'class-validator';
 import { InputType, Field } from 'type-graphql';
-import { BaseDto } from './BaseDto';
+import { Dto } from './Dto';
 
 @InputType()
-export class UserCreateDto implements BaseDto {
+export class UserCreateDto implements Dto {
   @Field()
   @Length(3, 20)
   username!: string;
