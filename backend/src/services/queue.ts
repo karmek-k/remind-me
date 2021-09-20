@@ -22,7 +22,7 @@ class QueueService {
   async loadJobs() {
     loggerService.log('Loading all jobs to the queue');
 
-    for (const job of reminderJobProvider.all()) {
+    for (const job of await reminderJobProvider.all()) {
       await this.addJob(job);
     }
 
@@ -50,7 +50,7 @@ class QueueService {
       return;
     }
 
-    const reminder = reminderProvider.find(job.data.reminderId);
+    const reminder = await reminderProvider.find(job.data.reminder.id);
     if (!reminder) {
       loggerService.log(
         `The reminder for job ${id} could not be found!`,
