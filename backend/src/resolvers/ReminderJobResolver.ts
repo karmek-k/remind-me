@@ -16,7 +16,7 @@ export default class {
   }
 
   @Mutation(() => ReminderJob, { nullable: true })
-  async removeJob(@Arg('jobId') jobId: number) {
+  async removeJob(@Arg('jobId', () => Int) jobId: number) {
     return await reminderJobProvider.delete(jobId);
   }
 }

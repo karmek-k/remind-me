@@ -23,7 +23,7 @@ class ReminderProvider {
   async delete(id: number) {
     const reminder = await this.find(id);
     if (!reminder) {
-      return null;
+      throw new Error(`Reminder with id ${id} is not defined`);
     }
 
     return await reminder.remove();

@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
 import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
 import { Reminder } from '../models/Reminder';
 import { reminderProvider } from '../services/providers/reminder';
@@ -11,7 +11,7 @@ export default class {
   }
 
   @Query(() => Reminder, { nullable: true })
-  async reminder(@Arg('id') id: number) {
+  async reminder(@Arg('id', () => Int) id: number) {
     return await reminderProvider.find(id);
   }
 
@@ -21,7 +21,7 @@ export default class {
   }
 
   @Mutation(() => Reminder, { nullable: true })
-  async removeReminder(@Arg('id') id: number) {
+  async removeReminder(@Arg('id', () => Int) id: number) {
     return await reminderProvider.delete(id);
   }
 }
