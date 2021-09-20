@@ -1,8 +1,9 @@
 import { InputType, Field } from 'type-graphql';
 import { MaxLength } from 'class-validator';
+import { BaseDto } from './BaseDto';
 
 @InputType()
-export class ReminderCreateDto {
+export class ReminderCreateDto implements BaseDto {
   @Field()
   @MaxLength(30)
   title!: string;
