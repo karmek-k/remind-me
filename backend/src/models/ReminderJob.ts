@@ -40,7 +40,7 @@ export class ReminderJob extends BaseEntity {
   @Column('enum', { array: true, enum: ChannelType })
   channels!: ChannelType[];
 
-  @Field({ defaultValue: false })
-  @Column({ default: false })
+  @Field({ defaultValue: true })
+  @Column({ default: true })
   active!: boolean;
 }
