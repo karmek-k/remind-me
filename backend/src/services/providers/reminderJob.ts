@@ -1,6 +1,7 @@
 import { ReminderJob } from '../../models/ReminderJob';
 import { ChannelType } from '../channels/channelMap';
 import { ReminderJobCreateDto } from '../../models/dtos/ReminderJobCreateDto';
+import { queueService } from '../queue';
 
 class ReminderJobProvider {
   private reminderJobs: ReminderJob[];
@@ -31,7 +32,7 @@ class ReminderJobProvider {
     return this.reminderJobs.filter(rj => rj.reminderId === reminderId);
   }
 
-  insert(reminderJobData: ReminderJobCreateDto) {
+  async insert(reminderJobData: ReminderJobCreateDto) {
     const { hour, minute } = reminderJobData;
 
     const data: ReminderJob = {
@@ -42,14 +43,19 @@ class ReminderJobProvider {
     };
 
     this.reminderJobs.push(data);
+    await queueService.addJob(data);
 
     return data;
   }
 
-  delete(id: number) {
-    const toDelete = this.reminderJobs.find(rem => rem.id === id);
+  async delete(id: number) {
+    const toDelete = this.reminderJobs.find(rj => rj.id === id);
+    if (!toDelete) {
+      return null;
+    }
 
-    this.reminderJobs = this.reminderJobs.filter(rem => rem !== toDelete);
+    this.reminderJobs = this.reminderJobs.filter(rj => rj !== toDelete);
+    await queueService.deleteJob(toDelete);
 
     return toDelete;
   }
