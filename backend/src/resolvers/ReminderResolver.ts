@@ -6,22 +6,22 @@ import { reminderProvider } from '../services/providers/reminder';
 @Resolver(Reminder)
 export default class {
   @Query(() => [Reminder])
-  reminders() {
-    return reminderProvider.all();
+  async reminders() {
+    return await reminderProvider.all();
   }
 
   @Query(() => Reminder, { nullable: true })
-  reminder(@Arg('id') id: number) {
-    return reminderProvider.find(id);
+  async reminder(@Arg('id') id: number) {
+    return await reminderProvider.find(id);
   }
 
   @Mutation(() => Reminder)
-  addReminder(@Arg('reminderData') reminderData: ReminderCreateDto) {
-    return reminderProvider.insert(reminderData);
+  async addReminder(@Arg('reminderData') reminderData: ReminderCreateDto) {
+    return await reminderProvider.insert(reminderData);
   }
 
   @Mutation(() => Reminder, { nullable: true })
-  removeReminder(@Arg('id') id: number) {
-    return reminderProvider.delete(id);
+  async removeReminder(@Arg('id') id: number) {
+    return await reminderProvider.delete(id);
   }
 }

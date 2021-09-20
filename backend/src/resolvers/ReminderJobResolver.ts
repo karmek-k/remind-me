@@ -6,8 +6,8 @@ import { reminderJobProvider } from '../services/providers/reminderJob';
 @Resolver(ReminderJob)
 export default class {
   @Query(() => [ReminderJob])
-  jobsForReminder(@Arg('reminderId', () => Int) reminderId: number) {
-    return reminderJobProvider.findForReminder(reminderId);
+  async jobsForReminder(@Arg('reminderId', () => Int) reminderId: number) {
+    return await reminderJobProvider.findForReminder(reminderId);
   }
 
   @Mutation(() => ReminderJob)

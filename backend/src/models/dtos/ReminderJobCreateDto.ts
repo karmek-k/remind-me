@@ -12,12 +12,12 @@ export class ReminderJobCreateDto {
   @ArrayUnique()
   channels!: ChannelType[];
 
-  @Field()
+  @Field(() => Int)
   @Min(0)
   @Max(23)
   hour!: number;
 
-  @Field()
+  @Field(() => Int)
   @Min(0)
   @Max(59)
   minute!: number;

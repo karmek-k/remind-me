@@ -1,47 +1,32 @@
 import { ReminderCreateDto } from '../../models/dtos/ReminderCreateDto';
 import { Reminder } from '../../models/Reminder';
-import { reminderJobProvider } from './reminderJob';
 
 class ReminderProvider {
-  private reminders: Reminder[];
-
-  constructor() {
-    this.reminders = [
-      {
-        id: 1,
-        title: 'clean your room',
-        message: "it's really messy",
-        jobs: reminderJobProvider.findForReminder(1)
-      }
-    ];
+  async all() {
+    return await Reminder.find();
   }
 
-  all() {
-    return this.reminders;
+  async find(id: number) {
+    return await Reminder.findOne(id);
   }
 
-  find(id: number) {
-    return this.reminders.find(r => r.id === id);
+  async insert(reminderData: ReminderCreateDto) {
+    const newReminder = new Reminder();
+
+    newReminder.title = reminderData.title;
+    newReminder.message = reminderData.message;
+    newReminder.jobs = [];
+
+    return await newReminder.save();
   }
 
-  insert(reminderData: ReminderCreateDto) {
-    const data: Reminder = {
-      ...reminderData,
-      id: this.reminders.length + 1,
-      jobs: []
-    };
+  async delete(id: number) {
+    const reminder = await this.find(id);
+    if (!reminder) {
+      return null;
+    }
 
-    this.reminders.push(data);
-
-    return data;
-  }
-
-  delete(id: number) {
-    const toDelete = this.reminders.find(rem => rem.id === id);
-
-    this.reminders = this.reminders.filter(rem => rem !== toDelete);
-
-    return toDelete;
+    return await reminder.remove();
   }
 }
 
