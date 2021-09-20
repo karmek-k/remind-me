@@ -25,7 +25,7 @@ class ReminderJobProvider {
     const reminder = await reminderProvider.find(reminderId);
 
     if (!reminder) {
-      return null;
+      throw new Error(`Reminder with id ${reminderId} is not defined`);
     }
 
     const newJob = new ReminderJob();
@@ -45,7 +45,7 @@ class ReminderJobProvider {
   async delete(id: number) {
     const toDelete = await ReminderJob.findOne(id);
     if (!toDelete) {
-      return null;
+      throw new Error('Job does not exist');
     }
 
     const data = await toDelete.remove();
