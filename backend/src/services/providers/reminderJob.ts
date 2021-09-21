@@ -2,8 +2,9 @@ import { ReminderJob } from '../../models/ReminderJob';
 import { ReminderJobCreateDto } from '../../models/dtos/ReminderJobCreateDto';
 import { queueService } from '../queue';
 import { reminderProvider } from './reminder';
+import { Provider } from './Provider';
 
-class ReminderJobProvider {
+class ReminderJobProvider implements Provider<ReminderJob> {
   async all() {
     return await ReminderJob.find();
   }
@@ -45,7 +46,7 @@ class ReminderJobProvider {
   async delete(id: number) {
     const toDelete = await ReminderJob.findOne(id);
     if (!toDelete) {
-      throw new Error('Job does not exist');
+      return Promise.reject('Job does not exist');
     }
 
     await queueService.deleteJob(toDelete);

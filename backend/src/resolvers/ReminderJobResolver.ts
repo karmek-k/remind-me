@@ -5,11 +5,6 @@ import { reminderJobProvider } from '../services/providers/reminderJob';
 
 @Resolver(ReminderJob)
 export default class {
-  @Query(() => [ReminderJob])
-  async jobsForReminder(@Arg('reminderId', () => Int) reminderId: number) {
-    return await reminderJobProvider.findForReminder(reminderId);
-  }
-
   @Mutation(() => ReminderJob)
   async addJob(@Arg('reminderJobData') reminderJobData: ReminderJobCreateDto) {
     return await reminderJobProvider.insert(reminderJobData);

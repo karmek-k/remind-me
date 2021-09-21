@@ -1,7 +1,8 @@
 import { ReminderCreateDto } from '../../models/dtos/ReminderCreateDto';
 import { Reminder } from '../../models/Reminder';
+import { Provider } from './Provider';
 
-class ReminderProvider {
+class ReminderProvider implements Provider<Reminder> {
   async all() {
     return await Reminder.find();
   }
@@ -23,10 +24,12 @@ class ReminderProvider {
   async delete(id: number) {
     const reminder = await this.find(id);
     if (!reminder) {
-      throw new Error(`Reminder with id ${id} is not defined`);
+      return Promise.reject(`Reminder with id ${id} is not defined`);
     }
 
-    return await reminder.remove();
+    await reminder.remove();
+
+    return Promise.resolve();
   }
 }
 

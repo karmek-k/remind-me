@@ -23,7 +23,8 @@ async function init() {
   });
   const server = new ApolloServer({ schema });
 
-  const { url } = await server.listen();
+  const port = process.env.PORT ?? 8000;
+  const { url } = await server.listen(port);
   loggerService.log(`Server running on ${url}`);
 }
 
