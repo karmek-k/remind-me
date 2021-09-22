@@ -13,7 +13,7 @@ class AuthService {
       throw new Error('JWT_TOKEN environment variable is not defined');
     }
 
-    return jwt.sign(payload, process.env.JWT_TOKEN);
+    return jwt.sign(payload, JWT_TOKEN);
   }
 }
 
