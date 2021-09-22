@@ -10,6 +10,7 @@ import { queueService } from './services/queue';
 import ReminderJobResolver from './resolvers/ReminderJobResolver';
 import { createConnection } from 'typeorm';
 import { dbConfig } from './config/db';
+import UserResolver from './resolvers/UserResolver';
 
 async function init() {
   await createConnection(dbConfig);
@@ -19,7 +20,7 @@ async function init() {
   loggerService.log(`Job count: ${jobCount}`);
 
   const schema = await buildSchema({
-    resolvers: [ReminderResolver, ReminderJobResolver]
+    resolvers: [ReminderResolver, ReminderJobResolver, UserResolver]
   });
   const server = new ApolloServer({ schema });
 

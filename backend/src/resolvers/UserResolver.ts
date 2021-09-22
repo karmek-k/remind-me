@@ -5,7 +5,7 @@ import { userProvider } from '../services/providers/user';
 
 @Resolver(User)
 export default class {
-  @Mutation()
+  @Mutation(() => User)
   async addUser(@Arg('userData') userData: UserCreateDto) {
     return await userProvider.insert(userData);
   }
