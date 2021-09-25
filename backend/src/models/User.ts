@@ -16,7 +16,7 @@ export class User extends BaseEntity {
   id!: number;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   username!: string;
 
   @Column({ select: false })

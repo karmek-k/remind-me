@@ -1,5 +1,9 @@
 {
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.5",
     "prettier": "^2.4.1"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
   }
 }
