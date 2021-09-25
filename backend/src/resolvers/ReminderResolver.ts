@@ -1,10 +1,11 @@
-import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int, Authorized } from 'type-graphql';
 import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
 import { Reminder } from '../models/Reminder';
 import { reminderProvider } from '../services/providers/reminder';
 
 @Resolver(Reminder)
 export default class {
+  @Authorized()
   @Query(() => [Reminder])
   async reminders() {
     return await reminderProvider.all();
