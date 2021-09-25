@@ -11,7 +11,7 @@ import ReminderJobResolver from './resolvers/ReminderJobResolver';
 import { createConnection } from 'typeorm';
 import { dbConfig } from './config/db';
 import UserResolver from './resolvers/UserResolver';
-import { jwtAuthChecker } from './config/auth';
+import { jwtAuthChecker, jwtAuthContext } from './config/auth';
 
 async function init() {
   await createConnection(dbConfig);
@@ -24,7 +24,10 @@ async function init() {
     resolvers: [ReminderResolver, ReminderJobResolver, UserResolver],
     authChecker: jwtAuthChecker
   });
-  const server = new ApolloServer({ schema });
+  const server = new ApolloServer({
+    schema,
+    context: jwtAuthContext
+  });
 
   const port = process.env.PORT ?? 8000;
   const { url } = await server.listen(port);
