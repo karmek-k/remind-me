@@ -13,7 +13,7 @@ export default class {
     const { username, password } = credentials;
     const user = await User.findOne({
       where: { username },
-      select: ['password']
+      select: ['id', 'password']
     });
     if (!user) {
       throw new Error('User not found');
