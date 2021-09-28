@@ -7,7 +7,9 @@ import { reminderJobProvider } from '../services/providers/reminderJob';
 @Resolver(ReminderJob)
 export default class {
   @Authorized()
-  @Mutation(() => ReminderJob)
+  @Mutation(() => ReminderJob, {
+    description: 'Creates a reminder job for the given Reminder.'
+  })
   async addJob(
     @Ctx('user') user: User,
     @Arg('reminderJobData') reminderJobData: ReminderJobCreateDto
@@ -16,7 +18,10 @@ export default class {
   }
 
   @Authorized()
-  @Mutation(() => ReminderJob, { nullable: true })
+  @Mutation(() => ReminderJob, {
+    nullable: true,
+    description: 'Deletes a reminder job for the given Reminder.'
+  })
   async removeJob(
     @Ctx('user') user: User,
     @Arg('jobId', () => Int) jobId: number
