@@ -11,7 +11,7 @@ import {
 
 registerEnumType(ChannelType, {
   name: 'Channel',
-  description: 'Communication channel'
+  description: 'Communication channel (e.g. Discord, Slack etc).'
 });
 
 @ObjectType({
