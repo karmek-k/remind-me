@@ -2,6 +2,11 @@ import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import { User } from '../models/User';
 
+export interface JwtPayload {
+  id: number;
+  username: string;
+}
+
 class AuthService {
   private secret: string;
 
@@ -18,14 +23,14 @@ class AuthService {
     return await argon2.verify(user.password, plaintextPassword);
   }
 
-  makeJwt(payload: object) {
+  makeJwt(payload: JwtPayload) {
     return jwt.sign(payload, this.secret);
   }
 
   verifyJwt(token: string) {
-    let payload;
+    let payload: JwtPayload;
     try {
-      payload = jwt.verify(token, this.secret);
+      payload = jwt.verify(token, this.secret) as JwtPayload;
     } catch (err) {
       return null;
     }

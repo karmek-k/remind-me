@@ -1,27 +1,46 @@
-import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Arg,
+  Int,
+  Authorized,
+  Ctx
+} from 'type-graphql';
 import { ReminderCreateDto } from '../models/dtos/ReminderCreateDto';
 import { Reminder } from '../models/Reminder';
+import { User } from '../models/User';
 import { reminderProvider } from '../services/providers/reminder';
 
 @Resolver(Reminder)
 export default class {
+  @Authorized()
   @Query(() => [Reminder])
-  async reminders() {
-    return await reminderProvider.all();
+  async reminders(@Ctx('user') user: User) {
+    return user.reminders;
   }
 
+  @Authorized()
   @Query(() => Reminder, { nullable: true })
-  async reminder(@Arg('id', () => Int) id: number) {
-    return await reminderProvider.find(id);
+  async reminder(@Ctx('user') user: User, @Arg('id', () => Int) id: number) {
+    return user.reminders.find(rem => rem.id === id);
   }
 
+  @Authorized()
   @Mutation(() => Reminder)
-  async addReminder(@Arg('reminderData') reminderData: ReminderCreateDto) {
-    return await reminderProvider.insert(reminderData);
+  async addReminder(
+    @Ctx('user') user: User,
+    @Arg('reminderData') reminderData: ReminderCreateDto
+  ) {
+    return await reminderProvider.insert(reminderData, user);
   }
 
+  @Authorized()
   @Mutation(() => Reminder, { nullable: true })
-  async removeReminder(@Arg('id', () => Int) id: number) {
-    return await reminderProvider.delete(id);
+  async removeReminder(
+    @Ctx('user') user: User,
+    @Arg('id', () => Int) id: number
+  ) {
+    return await reminderProvider.delete(id, user);
   }
 }

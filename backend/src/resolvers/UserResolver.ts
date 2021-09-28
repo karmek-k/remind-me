@@ -13,7 +13,7 @@ export default class {
     const { username, password } = credentials;
     const user = await User.findOne({
       where: { username },
-      select: ['password']
+      select: ['id', 'password']
     });
     if (!user) {
       throw new Error('User not found');
@@ -28,6 +28,10 @@ export default class {
 
   @Mutation(() => User)
   async addUser(@Arg('userData') userData: UserCreateDto) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('addUser is not available in production');
+    }
+
     return await userProvider.insert(userData);
   }
 }

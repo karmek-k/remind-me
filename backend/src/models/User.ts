@@ -23,6 +23,9 @@ export class User extends BaseEntity {
   password!: string;
 
   @Field(() => [Reminder])
-  @OneToMany(() => Reminder, rem => rem.user)
+  @OneToMany(() => Reminder, rem => rem.user, {
+    cascade: true,
+    eager: true
+  })
   reminders!: Reminder[];
 }
