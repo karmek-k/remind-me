@@ -11,36 +11,48 @@ import {
 
 registerEnumType(ChannelType, {
   name: 'Channel',
-  description: 'Communication channel'
+  description: 'Communication channel (e.g. Discord, Slack etc).'
 });
 
-@ObjectType()
+@ObjectType({
+  description:
+    'A repeated job that triggers sending a reminder, executed every day, for given hour and its minute.'
+})
 @Entity()
 export class ReminderJob extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field(() => Reminder)
+  @Field(() => Reminder, {
+    description: 'The Reminder that is triggerred by this job.'
+  })
   @ManyToOne(() => Reminder, rem => rem.jobs)
   reminder!: Reminder;
 
-  @Field(() => Int)
+  @Field(() => Int, { description: 'The hour this job is executed by.' })
   @Column()
   hour!: number;
 
-  @Field(() => Int)
+  @Field(() => Int, {
+    description: "The hour's minute this job is executed by."
+  })
   @Column()
   minute!: number;
 
   @Column()
   cron!: string;
 
-  @Field(() => [ChannelType])
+  @Field(() => [ChannelType], {
+    description: 'The channels that receive this reminder.'
+  })
   @Column('enum', { array: true, enum: ChannelType })
   channels!: ChannelType[];
 
-  @Field({ defaultValue: true })
+  @Field({
+    defaultValue: true,
+    description: 'Whether this job should by processed.'
+  })
   @Column({ default: true })
   active!: boolean;
 }

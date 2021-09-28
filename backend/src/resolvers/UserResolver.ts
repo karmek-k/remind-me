@@ -8,7 +8,7 @@ import { userProvider } from '../services/providers/user';
 
 @Resolver(User)
 export default class {
-  @Query(() => String)
+  @Query(() => String, { description: 'Returns a JWT for given credentials.' })
   async login(@Arg('credentials') credentials: UserLoginDto) {
     const { username, password } = credentials;
     const user = await User.findOne({
@@ -26,7 +26,9 @@ export default class {
     return authService.makeJwt({ id: user.id, username });
   }
 
-  @Mutation(() => User)
+  @Mutation(() => User, {
+    description: 'Adds a new user. Not available in production.'
+  })
   async addUser(@Arg('userData') userData: UserCreateDto) {
     if (process.env.NODE_ENV === 'production') {
       throw new Error('addUser is not available in production');

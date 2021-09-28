@@ -10,26 +10,30 @@ import {
 } from 'typeorm';
 import { User } from './User';
 
-@ObjectType()
+@ObjectType({
+  description: 'A reminder object that can have multiple ReminderJobs.'
+})
 @Entity()
 export class Reminder extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field()
+  @Field({ description: 'Notification title.' })
   @Column()
   title!: string;
 
-  @Field({ nullable: true })
+  @Field({ nullable: true, description: 'Notification message/content.' })
   @Column({ nullable: true })
   message!: string;
 
-  @Field()
+  @Field({ description: 'The user that will be notified.' })
   @ManyToOne(() => User, user => user.reminders)
   user!: User;
 
-  @Field(() => [ReminderJob])
+  @Field(() => [ReminderJob], {
+    description: 'ReminderJobs that trigger this reminder.'
+  })
   @OneToMany(() => ReminderJob, job => job.reminder, {
     cascade: true,
     eager: true
