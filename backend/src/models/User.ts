@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Reminder } from './Reminder';
 
-@ObjectType()
+@ObjectType({ description: 'API user.' })
 @Entity()
 export class User extends BaseEntity {
   @Field(() => Int)
@@ -22,7 +22,7 @@ export class User extends BaseEntity {
   @Column({ select: false })
   password!: string;
 
-  @Field(() => [Reminder])
+  @Field(() => [Reminder], { description: "User's reminders." })
   @OneToMany(() => Reminder, rem => rem.user, {
     cascade: true,
     eager: true
