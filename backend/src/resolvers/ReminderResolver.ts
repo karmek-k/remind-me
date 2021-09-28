@@ -15,19 +15,24 @@ import { reminderProvider } from '../services/providers/reminder';
 @Resolver(Reminder)
 export default class {
   @Authorized()
-  @Query(() => [Reminder])
+  @Query(() => [Reminder], {
+    description: 'Fetches all reminders of the current user.'
+  })
   async reminders(@Ctx('user') user: User) {
     return user.reminders;
   }
 
   @Authorized()
-  @Query(() => Reminder, { nullable: true })
+  @Query(() => Reminder, {
+    nullable: true,
+    description: 'Finds a reminder of the current user by its ID.'
+  })
   async reminder(@Ctx('user') user: User, @Arg('id', () => Int) id: number) {
     return user.reminders.find(rem => rem.id === id);
   }
 
   @Authorized()
-  @Mutation(() => Reminder)
+  @Mutation(() => Reminder, { description: 'Adds a reminder.' })
   async addReminder(
     @Ctx('user') user: User,
     @Arg('reminderData') reminderData: ReminderCreateDto
@@ -36,7 +41,10 @@ export default class {
   }
 
   @Authorized()
-  @Mutation(() => Reminder, { nullable: true })
+  @Mutation(() => Reminder, {
+    nullable: true,
+    description: 'Removes the reminder with given ID.'
+  })
   async removeReminder(
     @Ctx('user') user: User,
     @Arg('id', () => Int) id: number
