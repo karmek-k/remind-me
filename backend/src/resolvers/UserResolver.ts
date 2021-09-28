@@ -28,6 +28,10 @@ export default class {
 
   @Mutation(() => User)
   async addUser(@Arg('userData') userData: UserCreateDto) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('addUser is not available in production');
+    }
+
     return await userProvider.insert(userData);
   }
 }
