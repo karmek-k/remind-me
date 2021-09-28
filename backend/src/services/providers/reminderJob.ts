@@ -3,6 +3,7 @@ import { ReminderJobCreateDto } from '../../models/dtos/ReminderJobCreateDto';
 import { queueService } from '../queue';
 import { reminderProvider } from './reminder';
 import { Provider } from './Provider';
+import { User } from '../../models/User';
 
 class ReminderJobProvider implements Provider<ReminderJob> {
   async all() {
@@ -21,11 +22,11 @@ class ReminderJobProvider implements Provider<ReminderJob> {
     });
   }
 
-  async insert(reminderJobData: ReminderJobCreateDto) {
+  async insert(reminderJobData: ReminderJobCreateDto, user?: User) {
     const { hour, minute, channels, reminderId } = reminderJobData;
     const reminder = await reminderProvider.find(reminderId);
 
-    if (!reminder) {
+    if (!reminder || !user!.reminders.includes(reminder)) {
       throw new Error(`Reminder with id ${reminderId} is not defined`);
     }
 
@@ -43,9 +44,10 @@ class ReminderJobProvider implements Provider<ReminderJob> {
     return data;
   }
 
-  async delete(id: number) {
-    const toDelete = await ReminderJob.findOne(id);
-    if (!toDelete) {
+  async delete(id: number, user?: User) {
+    const toDelete = await ReminderJob.findOne(id, { relations: ['reminder'] });
+
+    if (!toDelete || !user!.reminders.includes(toDelete.reminder)) {
       return Promise.reject('Job does not exist');
     }
 

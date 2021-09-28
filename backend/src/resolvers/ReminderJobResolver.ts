@@ -12,7 +12,7 @@ export default class {
     @Ctx('user') user: User,
     @Arg('reminderJobData') reminderJobData: ReminderJobCreateDto
   ) {
-    return await reminderJobProvider.insert(reminderJobData);
+    return await reminderJobProvider.insert(reminderJobData, user);
   }
 
   @Authorized()
@@ -21,6 +21,6 @@ export default class {
     @Ctx('user') user: User,
     @Arg('jobId', () => Int) jobId: number
   ) {
-    return await reminderJobProvider.delete(jobId);
+    return await reminderJobProvider.delete(jobId, user);
   }
 }
