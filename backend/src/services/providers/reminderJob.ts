@@ -56,6 +56,15 @@ class ReminderJobProvider implements Provider<ReminderJob> {
 
     return Promise.resolve();
   }
+
+  async setActive(id: number, active: boolean, user: User) {
+    const job = await ReminderJob.findOne(id, { relations: ['reminder'] });
+    if (!job || !user.reminders.includes(job.reminder)) {
+      throw new Error('Job does not exist');
+    }
+
+    job.active = active;
+  }
 }
 
 export const reminderJobProvider = new ReminderJobProvider();
