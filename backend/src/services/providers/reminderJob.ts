@@ -4,6 +4,8 @@ import { queueService } from '../queue';
 import { reminderProvider } from './reminder';
 import { Provider } from './Provider';
 import { User } from '../../models/User';
+import { loggerService } from '../logger';
+import channelMap from '../channels/channelMap';
 
 class ReminderJobProvider implements Provider<ReminderJob> {
   async all() {
@@ -60,8 +62,56 @@ class ReminderJobProvider implements Provider<ReminderJob> {
     await job.save();
   }
 
-  private async getJob(reminderId: number, user?: User) {
-    const job = await ReminderJob.findOne(reminderId, {
+  async trigger(id: number, user?: User) {
+    let job: ReminderJob;
+
+    if (user) {
+      job = await this.getJob(id, user);
+    } else {
+      const jobOrUndef = await ReminderJob.findOne(id, {
+        relations: ['reminder']
+      });
+      if (!jobOrUndef) {
+        throw new Error('Job does not exist');
+      }
+
+      job = jobOrUndef;
+    }
+
+    if (!job.active) {
+      loggerService.log(`Job with id ${id} is inactive`, 'verbose');
+      return;
+    }
+
+    const reminder = await reminderProvider.find(job.reminder.id);
+    if (!reminder) {
+      loggerService.log(
+        `The reminder for job ${id} could not be found!`,
+        'error'
+      );
+      return Promise.reject();
+    }
+
+    for (const channel of job.channels) {
+      const transport = channelMap.get(channel);
+      if (!transport) {
+        loggerService.log(
+          `The transport for channel ${channel} could not be found!`,
+          'warning'
+        );
+        continue;
+      }
+
+      loggerService.log(
+        `Sending a reminder titled '${reminder.title}' by channel ${channel}`,
+        'verbose'
+      );
+      await transport.send(reminder);
+    }
+  }
+
+  private async getJob(jobId: number, user?: User) {
+    const job = await ReminderJob.findOne(jobId, {
       relations: ['reminder']
     });
     if (!job || !user!.reminders.includes(job.reminder)) {
