@@ -108,6 +108,8 @@ class ReminderJobProvider implements Provider<ReminderJob> {
       );
       await transport.send(reminder);
     }
+
+    return Promise.resolve();
   }
 
   private async getJob(jobId: number, user?: User) {
