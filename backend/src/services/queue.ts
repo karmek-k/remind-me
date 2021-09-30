@@ -1,8 +1,6 @@
 import Queue, { Job } from 'bull';
 import { ReminderJob } from '../models/ReminderJob';
-import channelMap from './channels/channelMap';
 import { loggerService } from './logger';
-import { reminderProvider } from './providers/reminder';
 import { reminderJobProvider } from './providers/reminderJob';
 
 class QueueService {
