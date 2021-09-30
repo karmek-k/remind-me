@@ -14,6 +14,10 @@ import UserResolver from './resolvers/UserResolver';
 import { jwtAuthChecker, jwtAuthContext } from './config/auth';
 
 async function init() {
+  if (process.env.NODE_ENV === 'production') {
+    loggerService.log('The server is running in production mode');
+  }
+
   await createConnection(dbConfig);
   loggerService.log('Database connection established');
 
