@@ -1,6 +1,7 @@
 import { ReminderCreateDto } from '../../models/dtos/ReminderCreateDto';
 import { Reminder } from '../../models/Reminder';
 import { User } from '../../models/User';
+import { WebhookConfig } from '../../models/WebhookConfig';
 import { loggerService } from '../logger';
 import { Provider } from './Provider';
 
@@ -17,17 +18,22 @@ class ReminderProvider implements Provider<Reminder> {
 
   async insert(reminderData: ReminderCreateDto, user?: User) {
     const newReminder = new Reminder();
+    const webhooks = new WebhookConfig();
+    await webhooks.save();
 
     newReminder.title = reminderData.title;
     newReminder.message = reminderData.message;
     newReminder.jobs = [];
     newReminder.user = user!;
+    newReminder.webhooks = webhooks;
+
+    await newReminder.save();
 
     loggerService.log(
       `${user?.username} has added a new reminder #${newReminder.id} titled ${reminderData.title}`
     );
 
-    return await newReminder.save();
+    return Promise.resolve(newReminder);
   }
 
   async delete(id: number, user?: User) {
