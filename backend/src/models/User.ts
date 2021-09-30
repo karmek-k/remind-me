@@ -24,7 +24,6 @@ export class User extends BaseEntity {
 
   @Field(() => [Reminder], { description: "User's reminders." })
   @OneToMany(() => Reminder, rem => rem.user, {
-    cascade: true,
     eager: true
   })
   reminders!: Reminder[];

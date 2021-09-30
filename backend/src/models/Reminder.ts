@@ -28,14 +28,16 @@ export class Reminder extends BaseEntity {
   message!: string;
 
   @Field({ description: 'The user that will be notified.' })
-  @ManyToOne(() => User, user => user.reminders)
+  @ManyToOne(() => User, user => user.reminders, {
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
   user!: User;
 
   @Field(() => [ReminderJob], {
     description: 'ReminderJobs that trigger this reminder.'
   })
   @OneToMany(() => ReminderJob, job => job.reminder, {
-    cascade: true,
     eager: true
   })
   jobs!: ReminderJob[];
