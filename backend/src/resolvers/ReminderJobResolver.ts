@@ -39,6 +39,18 @@ export default class {
     @Arg('jobId', () => Int) jobId: number,
     @Arg('active') active: boolean
   ) {
-    reminderJobProvider.setActive(jobId, active, user);
+    await reminderJobProvider.setActive(jobId, active, user);
+  }
+
+  @Authorized()
+  @Mutation(() => ReminderJob, {
+    nullable: true,
+    description: 'Triggers the job with given ID.'
+  })
+  async triggerJob(
+    @Ctx('user') user: User,
+    @Arg('jobId', () => Int) jobId: number
+  ) {
+    await reminderJobProvider.trigger(jobId, user);
   }
 }
