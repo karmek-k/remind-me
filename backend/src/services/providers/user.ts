@@ -5,8 +5,6 @@ import argon2 from 'argon2';
 
 class UserProvider implements Provider<User> {
   async all(): Promise<User[]> {
-    // TODO: make this only available to admins
-
     return await User.find();
   }
 
@@ -23,8 +21,6 @@ class UserProvider implements Provider<User> {
   }
 
   async delete(id: number): Promise<void> {
-    // TODO: make this only available to admins
-
     const toDelete = await User.findOne(id);
     if (!toDelete) {
       return Promise.reject('User does not exist');
