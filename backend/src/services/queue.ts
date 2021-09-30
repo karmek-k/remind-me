@@ -1,8 +1,6 @@
 import Queue, { Job } from 'bull';
 import { ReminderJob } from '../models/ReminderJob';
-import channelMap from './channels/channelMap';
 import { loggerService } from './logger';
-import { reminderProvider } from './providers/reminder';
 import { reminderJobProvider } from './providers/reminderJob';
 
 class QueueService {
@@ -45,38 +43,7 @@ class QueueService {
 
     loggerService.log(`Processing job with id ${id}`, 'verbose');
 
-    if (!job.data.active) {
-      loggerService.log(`Job with id ${id} is inactive`, 'verbose');
-      return;
-    }
-
-    const reminder = await reminderProvider.find(job.data.reminder.id);
-    if (!reminder) {
-      loggerService.log(
-        `The reminder for job ${id} could not be found!`,
-        'error'
-      );
-      return Promise.reject();
-    }
-
-    for (const channel of job.data.channels) {
-      const transport = channelMap.get(channel);
-      if (!transport) {
-        loggerService.log(
-          `The transport for channel ${channel} could not be found!`,
-          'warning'
-        );
-        continue;
-      }
-
-      loggerService.log(
-        `Sending a reminder titled '${reminder.title}' by channel ${channel}`,
-        'verbose'
-      );
-      await transport.send(reminder);
-    }
-
-    return Promise.resolve();
+    return await reminderJobProvider.trigger(id);
   }
 }
 

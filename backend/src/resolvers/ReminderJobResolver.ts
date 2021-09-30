@@ -28,4 +28,29 @@ export default class {
   ) {
     return await reminderJobProvider.delete(jobId, user);
   }
+
+  @Authorized()
+  @Mutation(() => ReminderJob, {
+    nullable: true,
+    description: 'Sets whether the job is active or not'
+  })
+  async setActive(
+    @Ctx('user') user: User,
+    @Arg('jobId', () => Int) jobId: number,
+    @Arg('active') active: boolean
+  ) {
+    await reminderJobProvider.setActive(jobId, active, user);
+  }
+
+  @Authorized()
+  @Mutation(() => ReminderJob, {
+    nullable: true,
+    description: 'Triggers the job with given ID.'
+  })
+  async triggerJob(
+    @Ctx('user') user: User,
+    @Arg('jobId', () => Int) jobId: number
+  ) {
+    await reminderJobProvider.trigger(jobId, user);
+  }
 }
