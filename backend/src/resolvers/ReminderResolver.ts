@@ -37,6 +37,18 @@ export default class {
     @Ctx('user') user: User,
     @Arg('reminderData') reminderData: ReminderCreateDto
   ) {
+    const { REMINDERS_PER_USER } = process.env;
+    if (REMINDERS_PER_USER) {
+      const maxReminders = Number.parseInt(REMINDERS_PER_USER);
+
+      if (
+        !Number.isNaN(maxReminders) &&
+        user.reminders.length >= maxReminders
+      ) {
+        throw new Error('You are not allowed to create more reminders');
+      }
+    }
+
     return await reminderProvider.insert(reminderData, user);
   }
 
