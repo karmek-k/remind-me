@@ -45,11 +45,7 @@ class ReminderJobProvider implements Provider<ReminderJob> {
   }
 
   async delete(id: number, user?: User) {
-    const toDelete = await ReminderJob.findOne(id, { relations: ['reminder'] });
-
-    if (!toDelete || !user!.reminders.includes(toDelete.reminder)) {
-      return Promise.reject('Job does not exist');
-    }
+    const toDelete = await this.getJob(id, user);
 
     await queueService.deleteJob(toDelete);
     await toDelete.remove();
@@ -58,12 +54,21 @@ class ReminderJobProvider implements Provider<ReminderJob> {
   }
 
   async setActive(id: number, active: boolean, user: User) {
-    const job = await ReminderJob.findOne(id, { relations: ['reminder'] });
-    if (!job || !user.reminders.includes(job.reminder)) {
+    const job = await this.getJob(id, user);
+
+    job.active = active;
+    await job.save();
+  }
+
+  private async getJob(reminderId: number, user?: User) {
+    const job = await ReminderJob.findOne(reminderId, {
+      relations: ['reminder']
+    });
+    if (!job || !user!.reminders.includes(job.reminder)) {
       throw new Error('Job does not exist');
     }
 
-    job.active = active;
+    return job;
   }
 }
 
