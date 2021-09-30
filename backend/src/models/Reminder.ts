@@ -4,11 +4,14 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { User } from './User';
+import { WebhookConfig } from './WebhookConfig';
 
 @ObjectType({
   description: 'A reminder object that can have multiple ReminderJobs.'
@@ -41,4 +44,9 @@ export class Reminder extends BaseEntity {
     eager: true
   })
   jobs!: ReminderJob[];
+
+  @Field(() => WebhookConfig, { description: 'Webhooks for this reminder' })
+  @OneToOne(() => WebhookConfig)
+  @JoinColumn()
+  webhooks!: WebhookConfig;
 }
