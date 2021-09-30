@@ -9,8 +9,10 @@ class ReminderProvider implements Provider<Reminder> {
     return await Reminder.find();
   }
 
-  async find(id: number) {
-    return await Reminder.findOne(id);
+  async find(id: number, withWebhooks: boolean = false) {
+    return await Reminder.findOne(id, {
+      relations: withWebhooks ? ['webhooks'] : undefined
+    });
   }
 
   async insert(reminderData: ReminderCreateDto, user?: User) {

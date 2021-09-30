@@ -89,7 +89,7 @@ class ReminderJobProvider implements Provider<ReminderJob> {
       return;
     }
 
-    const reminder = await reminderProvider.find(job.reminder.id);
+    const reminder = await reminderProvider.find(job.reminder.id, true);
     if (!reminder) {
       loggerService.log(
         `The reminder for job ${id} could not be found!`,
