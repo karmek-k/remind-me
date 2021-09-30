@@ -1,6 +1,7 @@
 import { ReminderCreateDto } from '../../models/dtos/ReminderCreateDto';
 import { Reminder } from '../../models/Reminder';
 import { User } from '../../models/User';
+import { loggerService } from '../logger';
 import { Provider } from './Provider';
 
 class ReminderProvider implements Provider<Reminder> {
@@ -19,6 +20,10 @@ class ReminderProvider implements Provider<Reminder> {
     newReminder.message = reminderData.message;
     newReminder.jobs = [];
     newReminder.user = user!;
+
+    loggerService.log(
+      `${user?.username} has added a new reminder #${newReminder.id} titled ${reminderData.title}`
+    );
 
     return await newReminder.save();
   }

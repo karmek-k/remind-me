@@ -44,6 +44,10 @@ class ReminderJobProvider implements Provider<ReminderJob> {
     const data = await newJob.save();
     await queueService.addJob(newJob);
 
+    loggerService.log(
+      `User ${user?.username} has added a job #${newJob.id} for ${hour}:${minute}`
+    );
+
     return data;
   }
 
@@ -67,6 +71,7 @@ class ReminderJobProvider implements Provider<ReminderJob> {
     let job: ReminderJob;
 
     if (user) {
+      loggerService.log(`User ${user?.username} is triggering job #${id}`);
       job = await this.getJob(id, user);
     } else {
       const jobOrUndef = await ReminderJob.findOne(id, {

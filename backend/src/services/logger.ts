@@ -4,11 +4,18 @@ class LoggerService {
   private logger: winston.Logger;
 
   constructor() {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const transports: winston.transport[] = [
+      new winston.transports.Console({ format: winston.format.simple() })
+    ];
+
+    if (isProduction) {
+      transports.push(new winston.transports.File({ filename: 'logs.log' }));
+    }
+
     this.logger = winston.createLogger({
-      level: 'verbose', // TODO: change when deploying
-      transports: [
-        new winston.transports.Console({ format: winston.format.simple() })
-      ]
+      level: isProduction ? 'info' : 'verbose',
+      transports
     });
   }
 
