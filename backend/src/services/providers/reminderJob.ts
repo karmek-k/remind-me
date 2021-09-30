@@ -6,6 +6,7 @@ import { Provider } from './Provider';
 import { User } from '../../models/User';
 import { loggerService } from '../logger';
 import channelMap from '../channels/channelMap';
+import { Reminder } from '../../models/Reminder';
 
 class ReminderJobProvider implements Provider<ReminderJob> {
   async all() {
@@ -28,7 +29,7 @@ class ReminderJobProvider implements Provider<ReminderJob> {
     const { hour, minute, channels, reminderId } = reminderJobData;
     const reminder = await reminderProvider.find(reminderId);
 
-    if (!reminder || !user!.reminders.includes(reminder)) {
+    if (!reminder || !this.userHasReminder(user!, reminder)) {
       throw new Error(`Reminder with id ${reminderId} is not defined`);
     }
 
@@ -116,11 +117,15 @@ class ReminderJobProvider implements Provider<ReminderJob> {
     const job = await ReminderJob.findOne(jobId, {
       relations: ['reminder']
     });
-    if (!job || !user!.reminders.includes(job.reminder)) {
+    if (!job || !this.userHasReminder(user!, job.reminder)) {
       throw new Error('Job does not exist');
     }
 
     return job;
+  }
+
+  private userHasReminder(user: User, reminder: Reminder) {
+    return !!user!.reminders.find(userRem => userRem.id === reminder.id);
   }
 }
 
