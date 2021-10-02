@@ -11,7 +11,6 @@ import { Reminder } from './Reminder';
 @ObjectType({ description: 'API user.' })
 @Entity()
 export class User extends BaseEntity {
-  @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
 
