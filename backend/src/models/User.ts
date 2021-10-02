@@ -11,7 +11,6 @@ import { Reminder } from './Reminder';
 @ObjectType({ description: 'API user.' })
 @Entity()
 export class User extends BaseEntity {
-  @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -24,7 +23,6 @@ export class User extends BaseEntity {
 
   @Field(() => [Reminder], { description: "User's reminders." })
   @OneToMany(() => Reminder, rem => rem.user, {
-    cascade: true,
     eager: true
   })
   reminders!: Reminder[];

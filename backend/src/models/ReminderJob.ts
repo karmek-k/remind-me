@@ -27,7 +27,10 @@ export class ReminderJob extends BaseEntity {
   @Field(() => Reminder, {
     description: 'The Reminder that is triggerred by this job.'
   })
-  @ManyToOne(() => Reminder, rem => rem.jobs)
+  @ManyToOne(() => Reminder, rem => rem.jobs, {
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
   reminder!: Reminder;
 
   @Field(() => Int, { description: 'The hour this job is executed by.' })
