@@ -12,6 +12,7 @@ import { createConnection } from 'typeorm';
 import { dbConfig } from './config/db';
 import UserResolver from './resolvers/UserResolver';
 import { jwtAuthChecker, jwtAuthContext } from './config/auth';
+import WebhookConfigResolver from './resolvers/WebhookConfigResolver';
 
 async function init() {
   if (process.env.NODE_ENV === 'production') {
@@ -25,7 +26,12 @@ async function init() {
   loggerService.log(`Job count: ${jobCount}`);
 
   const schema = await buildSchema({
-    resolvers: [ReminderResolver, ReminderJobResolver, UserResolver],
+    resolvers: [
+      ReminderResolver,
+      ReminderJobResolver,
+      UserResolver,
+      WebhookConfigResolver
+    ],
     authChecker: jwtAuthChecker
   });
   const server = new ApolloServer({
