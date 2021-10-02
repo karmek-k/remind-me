@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Reminder } from './Reminder';
 
-@ObjectType({ description: 'API user.' })
+@ObjectType({ description: 'An API user.' })
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -21,7 +21,7 @@ export class User extends BaseEntity {
   @Column({ select: false })
   password!: string;
 
-  @Field(() => [Reminder], { description: "User's reminders." })
+  @Field(() => [Reminder], { description: "The user's reminders." })
   @OneToMany(() => Reminder, rem => rem.user, {
     eager: true
   })
