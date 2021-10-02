@@ -9,6 +9,6 @@ export class WebhookAddDto implements Dto {
   })
   channel!: ChannelType;
 
-  @Field({ description: 'The webhook.' })
+  @Field({ description: 'The webhook URL.' })
   webhook!: string;
 }

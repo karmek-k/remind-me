@@ -49,7 +49,7 @@ export default class {
   @Authorized()
   @Mutation(() => ReminderJob, {
     nullable: true,
-    description: 'Sets whether the job is active or not'
+    description: 'Sets whether the job is active or not.'
   })
   async setActive(
     @Ctx('user') user: User,
