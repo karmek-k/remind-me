@@ -10,10 +10,8 @@ class ReminderProvider implements Provider<Reminder> {
     return await Reminder.find();
   }
 
-  async find(id: number, withWebhooks: boolean = false) {
-    return await Reminder.findOne(id, {
-      relations: withWebhooks ? ['webhooks'] : undefined
-    });
+  async find(id: number) {
+    return await Reminder.findOne(id);
   }
 
   async insert(reminderData: ReminderCreateDto, user?: User) {
@@ -26,6 +24,7 @@ class ReminderProvider implements Provider<Reminder> {
     newReminder.webhooks = await dtosToWebhookConfig(reminderData.webhooks);
 
     await newReminder.save();
+    console.log(newReminder);
 
     loggerService.log(
       `${user?.username} has added a new reminder #${newReminder.id} titled ${reminderData.title}`

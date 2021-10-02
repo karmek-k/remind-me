@@ -46,10 +46,9 @@ export class Reminder extends BaseEntity {
   jobs!: ReminderJob[];
 
   @Field(() => WebhookConfig, {
-    nullable: true,
     description: 'Webhooks for this reminder'
   })
-  @OneToOne(() => WebhookConfig, cfg => cfg.reminder)
+  @OneToOne(() => WebhookConfig, cfg => cfg.reminder, { eager: true })
   @JoinColumn()
   webhooks!: WebhookConfig;
 }
