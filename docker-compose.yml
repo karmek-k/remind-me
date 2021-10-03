@@ -3,13 +3,22 @@ version: '3'
 services:
   redis:
     image: redis:6
-    ports:
-      - 6379:6379
   db:
     image: postgres:13
-    ports:
-      - 5432:5432
     environment:
       POSTGRES_DB: remind_me
       POSTGRES_USER: remind_me
       POSTGRES_PASSWORD: remind_me
+  api:
+    build: ./backend
+    environment:
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: postgresql://remind_me:remind_me@db:5432/remind_me
+      JWT_SECRET: keyboard cat
+      PORT: '8000'
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+      - db
+    restart: always
