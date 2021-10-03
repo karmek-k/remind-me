@@ -19,7 +19,7 @@
     "build:watch": "tsc --watch",
     "start": "node .",
     "start:watch": "nodemon . -e ts,js,json",
-    "dev": "concurrently \"yarn:build:watch\" \"yarn:start:watch\""
+    "dev": "concurrently \"npm:build:watch\" \"npm:start:watch\""
   },
   "dependencies": {
     "apollo-server": "^3.3.0",
