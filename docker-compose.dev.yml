@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:6
+    ports:
+      - 6379:6379
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: remind_me
+      POSTGRES_USER: remind_me
+      POSTGRES_PASSWORD: remind_me
+    ports:
+      - 5432:5432
