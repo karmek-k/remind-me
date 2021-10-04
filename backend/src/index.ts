@@ -11,8 +11,10 @@ import { dbConfig } from './config/db';
 import { jwtAuthContext } from './config/auth';
 import { schemaConfig } from './config/schema';
 
+const { API_INTROSPECTION, NODE_ENV } = process.env;
+
 async function init() {
-  if (process.env.NODE_ENV === 'production') {
+  if (NODE_ENV === 'production') {
     loggerService.log('The server is running in production mode');
   }
 
@@ -25,7 +27,8 @@ async function init() {
   const schema = await buildSchema(schemaConfig);
   const server = new ApolloServer({
     schema,
-    context: jwtAuthContext
+    context: jwtAuthContext,
+    introspection: API_INTROSPECTION === '1'
   });
 
   const port = process.env.PORT ?? 8000;
