@@ -4,9 +4,11 @@ import { ReminderJob } from '../models/ReminderJob';
 import { User } from '../models/User';
 import { WebhookConfig } from '../models/WebhookConfig';
 
+const { DATABASE_URL, SYNC_DB } = process.env;
+
 export const dbConfig: ConnectionOptions = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  url: DATABASE_URL,
   entities: [User, Reminder, ReminderJob, WebhookConfig],
-  synchronize: true
+  synchronize: SYNC_DB === '1'
 };

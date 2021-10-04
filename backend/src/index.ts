@@ -11,8 +11,10 @@ import { dbConfig } from './config/db';
 import { jwtAuthContext } from './config/auth';
 import { schemaConfig } from './config/schema';
 
+const { NODE_ENV } = process.env;
+
 async function init() {
-  if (process.env.NODE_ENV === 'production') {
+  if (NODE_ENV === 'production') {
     loggerService.log('The server is running in production mode');
   }
 

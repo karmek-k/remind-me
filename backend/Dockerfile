@@ -19,4 +19,4 @@ RUN npm ci --only=production
 
 ENV NODE_ENV=production
 
-CMD ["npm", "run", "start"]
+ENTRYPOINT ["npm", "run", "start"]
