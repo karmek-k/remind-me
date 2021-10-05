@@ -1,14 +1,47 @@
 import type { NextPage } from 'next';
-import React, { FormEvent, useState } from 'react';
-
+import { useRouter } from 'next/dist/client/router';
+import React, { FormEvent, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import { LoginResponse } from '../interfaces/login';
+import { getToken, saveToken } from '../utils/jwt';
 
 const Home: NextPage = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (getToken()) {
+      router.push('/');
+    }
+  });
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setLoading(true);
+
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = (await res.json()) as LoginResponse;
+
+    setLoading(false);
+
+    const { token, error } = data;
+    if (error || !token) {
+      setError(error);
+      return;
+    }
+
+    saveToken(token);
+    router.push('/');
   };
 
   return (
@@ -41,6 +74,8 @@ const Home: NextPage = () => {
           value="Submit"
         />
       </form>
+      {loading && <p className="italic">Loading...</p>}
+      {error && <p className="text-red-600">Error: {error}</p>}
     </Layout>
   );
 };
