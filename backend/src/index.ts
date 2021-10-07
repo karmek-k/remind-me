@@ -27,7 +27,8 @@ async function init() {
   const schema = await buildSchema(schemaConfig);
   const server = new ApolloServer({
     schema,
-    context: jwtAuthContext
+    context: jwtAuthContext,
+    introspection: true // TODO: disable introspection when the frontend is ready
   });
 
   const port = process.env.PORT ?? 8000;
